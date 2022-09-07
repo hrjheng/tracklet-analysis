@@ -1,14 +1,14 @@
-Universe 	       = vanilla
-Initialdir  	   = /sphenix/user/hjheng/TrackletAna/analysis
-Executable 	       = $(Initialdir)/TrackletAna_RecoVtx_condor.sh
+Universe           = vanilla
+Initialdir         = /sphenix/user/hjheng/TrackletAna/analysis
+Executable         = $(Initialdir)/TrackletAna_RecoVtx_condor.sh
 PeriodicHold       = (NumJobStarts>=1 && JobStatus == 1)
 request_memory     = 20GB
 Priority           = 20
 job_lease_duration = 3600
 dphicut            = DPHICUT
 dzcut              = DZCUT
-Output  	       = $(Initialdir)/condor_RecoVtx/condor_out/out/condor_dphicutDPHICUT_dzcutDZCUT.out
+Output             = $(Initialdir)/condor_RecoVtx/condor_out/out/condor_dphicutDPHICUT_dzcutDZCUT.out
 Error              = $(Initialdir)/condor_RecoVtx/condor_out/err/condor_dphicutDPHICUT_dzcutDZCUT.err
-Log  		       = $(Initialdir)/condor_RecoVtx/condor_out/log/condor_dphicutDPHICUT_dzcutDZCUT.log
+Log                = $(Initialdir)/condor_RecoVtx/condor_out/log/condor_dphicutDPHICUT_dzcutDZCUT.log
 Arguments          = $(dphicut) $(dzcut)
 Queue 1

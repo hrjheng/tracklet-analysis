@@ -2,13 +2,17 @@ Universe           = vanilla
 Initialdir         = /sphenix/user/hjheng/TrackletAna/analysis
 Executable         = $(Initialdir)/TrackletAna_RecoVtx_condor.sh
 PeriodicHold       = (NumJobStarts>=1 && JobStatus == 1)
-request_memory     = 20GB
+request_memory     = 15GB
 Priority           = 20
 job_lease_duration = 3600
+isdata             = ISDATA
 dphicut            = DPHICUT
 dzcut              = DZCUT
-Output             = $(Initialdir)/condor_RecoVtx/condor_out/out/condor_dphicutDPHICUT_dzcutDZCUT.out
-Error              = $(Initialdir)/condor_RecoVtx/condor_out/err/condor_dphicutDPHICUT_dzcutDZCUT.err
-Log                = $(Initialdir)/condor_RecoVtx/condor_out/log/condor_dphicutDPHICUT_dzcutDZCUT.log
-Arguments          = $(dphicut) $(dzcut)
+gapnorth           = GAPNORTH
+gapupper           = GAPUPPER
+centshift          = CENTSHIFT
+Output             = $(Initialdir)/condor_RecoVtx/condor_out/out/condor_dphicutDPHICUT_dzcutDZCUT_gapnorthGAPNORTH_gapupperGAPUPPER_centshiftCENTSHIFT.out
+Error              = $(Initialdir)/condor_RecoVtx/condor_out/err/condor_dphicutDPHICUT_dzcutDZCUT_gapnorthGAPNORTH_gapupperGAPUPPER_centshiftCENTSHIFT.err
+Log                = $(Initialdir)/condor_RecoVtx/condor_out/log/condor_dphicutDPHICUT_dzcutDZCUT_gapnorthGAPNORTH_gapupperGAPUPPER_centshiftCENTSHIFT.log
+Arguments          = $(isdata) $(dphicut) $(dzcut) $(gapnorth) $(gapupper) $(centshift)
 Queue 1

@@ -175,7 +175,7 @@ def Draw_1DhistsComp(lhist, norm1, logx, logy, ymaxscale, XaxisName, Ytitle_unit
         c = 0
 
 
-def Draw_2Dhist(hist, logz, norm1, rmargin, XaxisName, YaxisName, outname):
+def Draw_2Dhist(hist, logz, norm1, rmargin, XaxisName, YaxisName, drawopt, outname):
     c = TCanvas('c', 'c', 800, 700)
     if logz:
         c.SetLogz()
@@ -198,7 +198,7 @@ def Draw_2Dhist(hist, logz, norm1, rmargin, XaxisName, YaxisName, outname):
     hist.GetYaxis().SetTitleOffset(1.3)
     hist.GetZaxis().SetLabelSize(AxisLabelSize)
     hist.SetContour(1000)
-    hist.Draw('COLZ')
+    hist.Draw(drawopt)
 
     leg = TLegend(LeftMargin, 1-TopMargin*1.1, LeftMargin+0.01, 0.98)
     leg.SetFillStyle(0)
@@ -209,6 +209,65 @@ def Draw_2Dhist(hist, logz, norm1, rmargin, XaxisName, YaxisName, outname):
     c.Draw()
     c.SaveAs(outname+'.pdf')
     c.SaveAs(outname+'.png')
+    if(c):
+        c.Close()
+        gSystem.ProcessEvents()
+        del c
+        c = 0
+
+def plot_Stack(totalhist, list_hist, color, list_legtext, logy, ymaxscale, XaxisName, Ytitle_unit, plotname):
+    # color = ['#073b4c','#118ab2','#06d6a0','#ffd166','#ef476f']
+    binwidth = totalhist.GetXaxis().GetBinWidth(1)
+    hs = THStack('hs','hs');
+    for i, hist in enumerate(list_hist):
+        hist.SetLineColor(1)
+        hist.SetLineWidth(1)
+        hist.SetFillColor(TColor.GetColor(color[i]))
+        hs.Add(hist)
+
+    # print(totalhist.GetMaximum(), hs.GetMaximum())
+
+    c = TCanvas('c', 'c', 800, 700)
+    if logy:
+        c.SetLogy()
+    c.cd()
+    hs.Draw()
+    hs.GetXaxis().SetTitle(XaxisName)
+    if Ytitle_unit == '':
+        hist.GetYaxis().SetTitle('Entries / ({:g})'.format(binwidth))
+    else:
+        hist.GetYaxis().SetTitle('Entries / ({:g} {unit})'.format(binwidth, unit=Ytitle_unit))
+    hs.GetXaxis().SetTitleSize(AxisTitleSize)
+    hs.GetYaxis().SetTitleSize(AxisTitleSize)
+    hs.GetXaxis().SetTickSize(TickSize)
+    hs.GetYaxis().SetTickSize(TickSize)
+    hs.GetXaxis().SetLabelSize(AxisLabelSize)
+    hs.GetYaxis().SetLabelSize(AxisLabelSize)
+    hs.GetYaxis().SetTitleOffset(1.3)
+    hs.SetMaximum(totalhist.GetMaximum() * ymaxscale)
+    hs.SetMinimum(0.1)
+    totalhist.SetLineWidth(3)
+    totalhist.SetLineColor(1)
+    totalhist.Draw('histsame')
+    c.Update()
+    leg = TLegend((1-RightMargin)-0.45, (1-TopMargin)-0.15,
+                  (1-RightMargin)-0.1, (1-TopMargin)-0.03)
+    leg.SetTextSize(0.045)
+    leg.SetFillStyle(0)
+    leg.AddEntry('', '#it{#bf{sPHENIX}} Simulation', '')
+    leg.AddEntry('', 'Au+Au #sqrt{s_{NN}}=200 GeV', '')
+    leg.Draw()
+    leg1 = TLegend(LeftMargin+0.05, (1-TopMargin)-0.22,
+                   LeftMargin+0.3, (1-TopMargin)-0.01)
+    # leg1.SetNColumns(3)
+    leg1.SetTextSize(0.03)
+    leg1.SetFillStyle(0)
+    for i, text in enumerate(list_legtext):
+        leg1.AddEntry(list_hist[i], text, 'f')
+    leg1.Draw()
+    c.Update()
+    c.SaveAs(plotname+'.png')
+    c.SaveAs(plotname+'.pdf')
     if(c):
         c.Close()
         gSystem.ProcessEvents()
@@ -237,11 +296,18 @@ def Draw_2Dhist(hist, logz, norm1, rmargin, XaxisName, YaxisName, outname):
 
 #     return list_hm
 
+def GetHistogram(filename, histname):
+    f = TFile(filename, 'r')
+    hm = f.Get(histname)
+    hm.SetDirectory(0)
+    f.Close()
+    return hm
+
 def GetHist(histname, misalignnum):
     layerlabel = [12, 23, 13]
     list_hm = []
     for l in layerlabel:
-        f = TFile('./hists/AuAu_Nominal/TrackletAna_histograms_layer{}_Evt0to4000_RandhitCase0_MisAlignNum{}.root'.format(l, misalignnum), 'r')
+        f = TFile('./hists/AuAu_Nominal_NoPileup/TrackletAna_histograms_layer{}_Evt0to2000_RandhitCase0_MisAlignNum{}.root'.format(l, misalignnum), 'r')
         hm = f.Get(histname)
         hm.SetDirectory(0)
         f.Close()
@@ -264,3 +330,8 @@ def GetHist_Single(histname):
         f.Close()
 
     return list_hm
+
+
+def str_pttop(s):
+    return str(s).replace('.', 'p')
+

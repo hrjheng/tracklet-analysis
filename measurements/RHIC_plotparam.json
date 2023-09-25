@@ -1,0 +1,42 @@
+{
+    "sphenix_auau_200gev":{
+        "markerstyle": 20,
+        "markercolor": "#1A1423",
+        "markersize": 1,
+        "linewidth": 0,
+        "alpha": 0.5,
+        "DrawOption": ["p RX same",""],
+        "Legendtext": "sPHENIX AuAu 200 GeV",
+        "Legendstyle": "pf"
+    },
+    "phobos_auau_0p2":{
+        "markerstyle": 21,
+        "markercolor": "#19647E",
+        "markersize": 1,
+        "linewidth": 0,
+        "alpha": 0.6,
+        "DrawOption": ["3 same","pX same"],
+        "Legendtext": "PHOBOS AuAu 200 GeV",
+        "Legendstyle": "pf"
+    },
+    "phenix_auau_0p2":{
+        "markerstyle": 22,
+        "markercolor": "#28AFB0",
+        "markersize": 1,
+        "linewidth": 0,
+        "alpha": 0.6,
+        "DrawOption": ["3 RX same","pX RX same"],
+        "Legendtext": "PHENIX AuAu 200 GeV",
+        "Legendstyle": "pf"
+    },
+    "brahms_auau_0p2":{
+        "markerstyle": 23,
+        "markercolor": "#DBB68F",
+        "markersize": 1,
+        "linewidth": 0,
+        "alpha": 0.7,
+        "DrawOption": ["3 same", "pX same"],
+        "Legendtext": "BRAHMS AuAu 200 GeV",
+        "Legendstyle": "pf"
+    }
+}

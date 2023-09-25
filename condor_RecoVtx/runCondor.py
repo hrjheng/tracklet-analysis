@@ -25,8 +25,8 @@ os.system('rm ./condor_out/out/*')
 os.system('rm ./condor_out/err/*')
 os.system('rm ./condor_out/log/*')
 
-for i in range(0, 40):
-    for j in range(0, 40):
+for i in range(0, 30):
+    for j in range(0, 30):
         dphicut = 0.01 * (i+1)
         dzcut = 0.01 * (j+1)
         print('(dPhiCut,dZCut)=({:.2f},{:.2f})'.format(dphicut, dzcut))

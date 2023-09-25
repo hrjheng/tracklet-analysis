@@ -15,46 +15,52 @@ class GenHadron : public TObject
 {
 public:
     GenHadron();
-    GenHadron(float, float); // simple construct
+    GenHadron(float, float, float, float); // simple construct
     ~GenHadron();
 
-    // float Pt();
+    float Pt();
     float Eta();
     float Phi();
-    // float E();
+    float E();
 
     void SetMatchedToRecotkl();
     bool IsMatchedToRecotkl();
 
 private:
-    // float _pt;
+    float _pt;
     float _eta;
     float _phi;
-    // float _en;
+    float _en;
     bool _ismatched;
 };
 
 GenHadron::GenHadron()
 {
-    // _pt = 0;
+    _pt = 0;
     _eta = 0;
     _phi = 0;
-    // _en = 0;
+    _en = 0;
     _ismatched = false;
 }
 
-GenHadron::GenHadron(float eta, float phi)
+GenHadron::GenHadron(float pt, float eta, float phi, float E)
 {
+    _pt = pt;
     _eta = eta;
     _phi = phi;
+    _en = E;
     _ismatched = false;
 }
 
 GenHadron::~GenHadron() {}
 
+float GenHadron::Pt() { return (_pt); }
+
 float GenHadron::Eta() { return (_eta); } 
 
 float GenHadron::Phi() { return (_phi); }
+
+float GenHadron::E() { return (_en); }
 
 void GenHadron::SetMatchedToRecotkl() { _ismatched = true; }
 

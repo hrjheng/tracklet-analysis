@@ -1,19 +1,19 @@
 #ifndef HIT_H
 #define HIT_H
 
-#include <stdio.h>
-#include <iostream>
 #include <cmath>
+#include <iostream>
+#include <stdio.h>
 
 #include <TObject.h>
-#include <TVector3.h>
 #include <TRandom3.h>
+#include <TVector3.h>
 
 using namespace std;
 
 class Hit : public TObject
 {
-public:
+  public:
     Hit();
     Hit(float, float, float, float, float, float, int);
     Hit(float, float); // simple construct
@@ -42,7 +42,7 @@ public:
     TVector3 VecVtx();
     TVector3 VecRel();
 
-private:
+  private:
     float _x;
     float _y;
     float _z;
@@ -136,19 +136,13 @@ TVector3 Hit::VecVtx() { return (vecvtx); }
 
 TVector3 Hit::VecRel() { return (vecrel); }
 
-void Hit::Print()
-{
-    printf("[Hit::Print()] (posX, posY, posZ) = (%f, %f, %f), (vtxX, vtxY, vtxZ) = (%f, %f, %f), (eta, phi) = (%f, %f) \n", vechit.X(), vechit.Y(), vechit.Z(), vecvtx.X(), vecvtx.Y(), vecvtx.Z(), vecrel.Eta(), vecrel.Phi());
-}
-
-bool compareEta(Hit *hit1, Hit *hit2) { return (hit1->Eta() < hit2->Eta()); }
+void Hit::Print() { printf("[Hit::Print()] (posX, posY, posZ) = (%f, %f, %f), (vtxX, vtxY, vtxZ) = (%f, %f, %f), (eta, phi) = (%f, %f) \n", vechit.X(), vechit.Y(), vechit.Z(), vecvtx.X(), vecvtx.Y(), vecvtx.Z(), vecrel.Eta(), vecrel.Phi()); }
 
 void UpdateHits(vector<Hit *> &Hits, vector<float> PV)
 {
     for (auto &hit : Hits)
     {
         hit->SetVtx(PV[0], PV[1], PV[2]);
-        // hit->SetPos(hit->posX() - PV[0], hit->posY() - PV[1], hit->posZ() - PV[2]);
         hit->Update();
     }
 }
